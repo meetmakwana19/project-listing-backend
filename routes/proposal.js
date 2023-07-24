@@ -7,7 +7,7 @@ router.route("/")
   // roleBasedAuthentication is a middlware powered by other 2 middlwares to conditionally verfy the authToken.
   .get(roleBasedAuthentication, (req, res, next) => {
     let queryObject;
-    const { developer, project } = req.query;
+    const { developer, project, organization } = req.query;
 
     // FILTERING BASED ON 2 KEYS - developer and projects
     if (developer) {
@@ -16,8 +16,11 @@ router.route("/")
     if (project) {
       queryObject = project;
     }
+    if (organization) {
+      queryObject = organization;
+    }
 
-    Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail")
+    Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
       .then((documents) => {
         // once we get all the documents the filter the data based on query parameter key and value
         let filteredDocs;
