@@ -20,6 +20,11 @@ const proposalSchema = new mongoose.Schema(
       ref: "developers",
       required: true,
     },
+    organization: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "organizations",
+      required: true,
+    },
   },
 );
 
