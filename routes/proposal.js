@@ -20,7 +20,7 @@ router.route("/")
       queryObject = organization;
     }
 
-    Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
+    Proposal.find(queryObject).populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
       .then((documents) => {
         // once we get all the documents the filter the data based on query parameter key and value
         let filteredDocs;
