@@ -11,13 +11,13 @@ router.route("/")
 
     // FILTERING BASED ON 2 KEYS - developer and projects
     if (developer) {
-      queryObject = developer;
+      queryObject.developer = developer;
     }
     if (project) {
-      queryObject = project;
+      queryObject.project = project;
     }
     if (organization) {
-      queryObject = organization;
+      queryObject.organization = organization;
     }
 
     Proposal.find(queryObject).populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
