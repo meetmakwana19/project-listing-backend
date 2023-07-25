@@ -1,40 +1,50 @@
 const router = require("express").Router();
+const { default: mongoose } = require("mongoose");
 const { isDeveloperAuthenticated, roleBasedAuthentication } = require("../middleware/isAuthenticated");
 const Proposal = require("../models/proposal");
 const ApiError = require("../utils/ApiError");
 
+// need this to convert the _id obtained from query params into mongodb ObjectId type.
+const { ObjectId } = mongoose.Types;
+
 router.route("/")
   // roleBasedAuthentication is a middlware powered by other 2 middlwares to conditionally verfy the authToken.
   .get(roleBasedAuthentication, (req, res, next) => {
-    let queryObject;
+    const queryObject = {};
     const { developer, project, organization } = req.query;
 
     // FILTERING BASED ON 2 KEYS - developer and projects
     if (developer) {
-      queryObject.developer = developer;
+      // converting to `new ObjectId("64ac1d8cb20")` type for comparison in filter method.
+      queryObject.developer = new ObjectId(developer);
     }
     if (project) {
-      queryObject.project = project;
+      queryObject.project = new ObjectId(project);
     }
     if (organization) {
-      queryObject.organization = organization;
+      queryObject.organization = new ObjectId(organization);
     }
 
-    Proposal.find(queryObject).populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
+    Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
       .then((documents) => {
         // once we get all the documents the filter the data based on query parameter key and value
         let filteredDocs;
         if (queryObject) {
           filteredDocs = documents.filter((doc) => {
             if (developer) { // FILTER SPECIFIC DEV
-              return doc.developer.uid === queryObject;
+              // equals() method is used to compare the ObjectId values
+              // === cant be used since it is not String.
+              return doc.developer._id.equals(queryObject.developer);
             }
-            // FILTER SPECIFIC PROJECT
-            return doc.project.uid === queryObject;
+            if (organization) { // FILTER SPECIFIC ORG
+              return doc.organization._id.equals(queryObject.organization);
+            } if (project) {
+              // FILTER SPECIFIC PROJECT
+              return doc.project._id.equals(queryObject.project);
+            }
+            // return the OG response if no queryParam
+            return documents;
           });
-        } else {
-          // NO FILTER
-          filteredDocs = documents;
         }
         if (documents.length === 0) {
           // returns response of empty array with 'successful request' 200 code
@@ -47,6 +57,7 @@ router.route("/")
           res.status(200).json({
             message: "Fetched proposals successfully.",
             data: filteredDocs,
+            // data: documents,
             errors: null,
           });
         }
