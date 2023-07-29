@@ -25,6 +25,18 @@ const proposalSchema = new mongoose.Schema(
       ref: "organizations",
       required: true,
     },
+    pending: {
+      type: Boolean,
+      default: true,
+    },
+    accepted: {
+      type: Boolean,
+      default: false,
+    },
+    rejected: {
+      type: Boolean,
+      default: false,
+    },
   },
 );
 
