@@ -81,8 +81,10 @@ router.route("/")
 
 router.route("/:uid")
 
-  // isDeveloperAuthenticated is a middlware
-  .patch(isDeveloperAuthenticated, (req, res, next) => {
+  // roleBasedAuthentication is a middlware
+  // developer can should be able to delete proposal
+  // organization should be able accept/reject the proposal
+  .patch(roleBasedAuthentication, (req, res, next) => {
     const updatedProposal = req.body;
 
     Proposal.findOneAndUpdate({ uid: req.params.uid }, { ...updatedProposal }, { new: true })
