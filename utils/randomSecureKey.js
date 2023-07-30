@@ -35,3 +35,9 @@ module.exports.reviewUID = () => {
 
   return `rev_${randomString}`;
 };
+module.exports.historyUID = () => {
+  const length = 8;
+  const randomString = Math.floor(Math.random() * 10 ** length);
+
+  return `hist_${randomString}`;
+};

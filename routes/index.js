@@ -3,6 +3,7 @@ const projectRouter = require("./projects");
 const organizationRouter = require("./organizations");
 const reviewRouter = require("./review");
 const proposalRouter = require("./proposal");
+const projectHiistoryRouter = require("./projectHistory");
 
 module.exports = {
   developerRouter,
@@ -10,4 +11,5 @@ module.exports = {
   organizationRouter,
   reviewRouter,
   proposalRouter,
+  projectHiistoryRouter,
 };

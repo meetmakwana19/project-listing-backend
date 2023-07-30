@@ -59,6 +59,7 @@ module.exports = Promise.resolve()
     app.use("/organizations", router.organizationRouter);
     app.use("/reviews", router.reviewRouter);
     app.use("/proposals", router.proposalRouter);
+    app.use("/project-histories", router.projectHiistoryRouter);
 
     // Middlware 5 - A global error handler
     // do not call like ()
