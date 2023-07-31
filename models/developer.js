@@ -70,6 +70,9 @@ const developerSchema = new mongoose.Schema(
     technical_role: { // like engineer/researcher/designer.....
       type: String,
     },
+    about: {
+      type: String,
+    },
   },
   {
     timestamps: true,
