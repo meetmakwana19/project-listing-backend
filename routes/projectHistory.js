@@ -50,6 +50,21 @@ router.route("/")
   });
 
 router.route("/:uid")
+  .get(isDeveloperAuthenticated, (req, res, next) => {
+    ProjectHistory.findOne({ uid: req.params.uid })
+      .then((document) => {
+        if (!document) {
+          throw Error("Project not found.");
+        }
+        res.status(200).json({
+          message: "Fetched Project history successfully",
+          data: document,
+          errors: null,
+        });
+      })
+      .catch((error) => next(new ApiError(422, "Error fetching project history", error.toString())));
+  })
+
   .patch(isDeveloperAuthenticated, (req, res, next) => {
     const updatedProject = req.body;
 
