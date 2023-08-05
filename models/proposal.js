@@ -37,6 +37,10 @@ const proposalSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    reviewed: {
+      type: Boolean,
+      default: false,
+    },
   },
 );
 
