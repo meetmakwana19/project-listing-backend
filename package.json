@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node index.js",
+    "start": "node server.js",
     "start:dev": "npx nodemon server.js",
     "__comment__": "By adding --timeout 20000, the timeout limit for all the test cases will be set to 25000ms (25 seconds) since there were timeout errors of 2000s for the long CRUD operations involving file upload and same while generating nyc coverage report needed extra time...",
     "test": "mocha --timeout 25000 --exit ./test/**/*.test.js",
