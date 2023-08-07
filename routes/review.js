@@ -9,13 +9,25 @@ router.route("/")
     const queryObject = {};
 
     // destructuring query key from URL.
-    const { sort } = req.query;
+    const {
+      sort, organization, developer, project,
+    } = req.query;
     // req.query helps for finding only those specific documents which are queried from the URL like /reviews?sort=createdAt
 
+    // FOR FILTERING
+    if (organization) {
+      queryObject.organization = organization;
+    }
+    if (developer) {
+      queryObject.developer = developer;
+    }
+    if (project) {
+      queryObject.project = project;
+    }
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
     // populating specific collections with only selected properties. - means to neglect that field i.e. _id
-    let fetchedData = Review.find(queryObject).populate({ path: "developer", select: "fname lname email uid -_id" }).populate({ path: "organization", select: "name website uid -_id" }).populate({ path: "project", select: "title uid -_id" });
+    let fetchedData = Review.find(queryObject).populate({ path: "developer", select: "fname lname email uid" }).populate({ path: "organization", select: "name website uid" }).populate({ path: "project", select: "title uid -_id" });
 
     // if user has written `?sort=createdAt,updatedAt` with multiple sort conditions in URL :
     if (sort) {
