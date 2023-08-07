@@ -37,7 +37,11 @@ const proposalSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    reviewed: {
+    reviewedByDev: {
+      type: Boolean,
+      default: false,
+    },
+    reviewedByOrg: {
       type: Boolean,
       default: false,
     },
