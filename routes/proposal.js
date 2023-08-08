@@ -11,9 +11,17 @@ router.route("/")
   // roleBasedAuthentication is a middlware powered by other 2 middlwares to conditionally verfy the authToken.
   .get(roleBasedAuthentication, (req, res, next) => {
     const queryObject = {};
-    const { developer, project, organization } = req.query;
+    const {
+      developer, project, organization, count,
+    } = req.query;
+    console.log("req.query is ", req.query);
 
-    // FILTERING BASED ON 2 KEYS - developer and projects
+    // had to put the find method in a variable as we needed to put sort over it again.
+    // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
+    // sending only the selected fields in the 2nd arg of populate()
+    let fetchedData = Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid");
+
+    // FILTERING BASED ON 3 KEYS - developer, organization and project.
     if (developer) {
       // converting to `new ObjectId("64ac1d8cb20")` type for comparison in filter method.
       queryObject.developer = new ObjectId(developer);
@@ -24,12 +32,26 @@ router.route("/")
     if (organization) {
       queryObject.organization = new ObjectId(organization);
     }
-
-    Proposal.find().populate("developer", "fname lname email profile_pic uid").populate("project", "title uid thumbnail").populate("organization", "name uid")
+    if (count) {
+      fetchedData = Proposal.countDocuments(queryObject);
+    }
+    // console.log("qeury is ", fetchedData);
+    fetchedData
       .then((documents) => {
+        console.log("docs are ", documents);
+        // console.log("docs are ", res);
         // once we get all the documents the filter the data based on query parameter key and value
+        // console.log("docs are ", documents);
         let filteredDocs;
         if (queryObject) {
+          // sending count response
+          if (count) {
+            return res.status(200).json({
+              message: "Counted proposals successfully.",
+              data: documents,
+              errors: null,
+            });
+          }
           filteredDocs = documents.filter((doc) => {
             if (developer) { // FILTER SPECIFIC DEV
               // equals() method is used to compare the ObjectId values
