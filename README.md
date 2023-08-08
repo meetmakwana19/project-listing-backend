@@ -82,6 +82,8 @@ An all-in-one project listing app with a powerful backend, enabling seamless bro
 ### Proposals
 
 - [x] Retrieve all proposals - *Dev+Org Protected* <span style="color:deepskyblue">GET</span> `/proposals`
+  > - [x] FILTER based on '*developer*', '*organization*', '*project*' - <span style="color:deepskyblue">GET</span> `/proposals?developer=_id`
+  > - [x] COUNT & FILTER based on '*developer*', '*organization*', '*project*' - <span style="color:deepskyblue">GET</span> `/proposals?developer=_id&count=1`
 - [x] Create new proposal - *Dev Protected* <span style="color:springgreen">POST</span> `/proposals`
 - [x] Update specific proposal - *Dev Protected* <span style="color:yellow">PATCH</span> `/proposals/:uid`
 - [x] Delete specific proposal - *Dev Protected* <span style="color:red">DELETE</span> `/proposals/:uid`
@@ -89,6 +91,7 @@ An all-in-one project listing app with a powerful backend, enabling seamless bro
 ### Review
 
 - [x] Retrieve all reviews - <span style="color:deepskyblue">GET</span> `/reviews`
+  > - [x] FILTER based on '*developer*', '*organization*', '*project*' - <span style="color:deepskyblue">GET</span> `/reviews?developer=_id`
   >  - [x] SORT asc/desc based on '*any*' parameter  - <span style="color:deepskyblue">GET</span> `/reviews?sort=rating` or `=-rating` for descending.
 - [x] Create new review - *Dev+Org Protected* <span style="color:springgreen">POST</span> `/reviews`
 - [x] Update specific review - *Protected* <span style="color:yellow">PATCH</span> `/reviews/:uid`
