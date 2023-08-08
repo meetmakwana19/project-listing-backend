@@ -14,7 +14,7 @@ router.route("/")
     const {
       developer, project, organization, count,
     } = req.query;
-    console.log("req.query is ", req.query);
+    // console.log("req.query is ", req.query);
 
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
@@ -38,7 +38,7 @@ router.route("/")
     // console.log("qeury is ", fetchedData);
     fetchedData
       .then((documents) => {
-        console.log("docs are ", documents);
+        // console.log("docs are ", documents);
         // console.log("docs are ", res);
         // once we get all the documents the filter the data based on query parameter key and value
         // console.log("docs are ", documents);
@@ -53,6 +53,9 @@ router.route("/")
             });
           }
           filteredDocs = documents.filter((doc) => {
+            if (developer && project) {
+              return doc.project._id.equals(queryObject.project) && doc.developer._id.equals(queryObject.developer);
+            }
             if (developer) { // FILTER SPECIFIC DEV
               // equals() method is used to compare the ObjectId values
               // === cant be used since it is not String.
@@ -81,6 +84,7 @@ router.route("/")
           message: "Fetched proposals successfully.",
           data: filteredDocs,
           // data: documents,
+          length: filteredDocs.length,
           errors: null,
         });
       })
