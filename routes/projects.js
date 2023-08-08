@@ -4,7 +4,7 @@ const cloudinary = require("cloudinary").v2;
 const Project = require("../models/project");
 const ApiError = require("../utils/ApiError");
 const controller = require("../controllers/project");
-const { isOrganizationAuthenticated } = require("../middleware/isAuthenticated");
+const { isOrganizationAuthenticated, roleBasedAuthentication } = require("../middleware/isAuthenticated");
 
 router.route("/")
   .get((req, res, next) => {
@@ -128,7 +128,7 @@ router.route("/:uid")
   })
 
   // isOrganizationAuthenticated is a middleware
-  .patch(isOrganizationAuthenticated, (req, res, next) => {
+  .patch(roleBasedAuthentication, (req, res, next) => {
     const project = req.body;
     const file = req.files ? req.files.photo : null;
 
