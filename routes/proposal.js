@@ -75,14 +75,14 @@ router.route("/")
             data: documents,
             errors: null,
           });
-        } else {
-          res.status(200).json({
-            message: "Fetched proposals successfully.",
-            data: filteredDocs,
-            // data: documents,
-            errors: null,
-          });
         }
+        // else ---->
+        return res.status(200).json({
+          message: "Fetched proposals successfully.",
+          data: filteredDocs,
+          // data: documents,
+          errors: null,
+        });
       })
       .catch((error) => next(new ApiError(422, "Error fetching proposals", error.toString())));
   })
