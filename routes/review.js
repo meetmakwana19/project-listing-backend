@@ -27,7 +27,7 @@ router.route("/")
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
     // populating specific collections with only selected properties. - means to neglect that field i.e. _id
-    let fetchedData = Review.find(queryObject).populate({ path: "developer", select: "fname lname email uid profile_pic" }).populate({ path: "organization", select: "name website uid" }).populate({ path: "project", select: "title uid -_id" });
+    let fetchedData = Review.find(queryObject).populate({ path: "developer", select: "fname lname email uid profile_pic" }).populate({ path: "organization", select: "name website uid banner_img" }).populate({ path: "project", select: "title uid -_id" });
 
     // if user has written `?sort=createdAt,updatedAt` with multiple sort conditions in URL :
     if (sort) {
