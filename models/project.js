@@ -76,10 +76,10 @@ const projectSchema = new mongoose.Schema(
     required_personnel: { // like entry-level/exprerienced
       type: String,
     },
-    bookmark: { // to save a project
-      type: Boolean,
-      default: false,
-    },
+    bookmark: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "developers",
+    }],
     open: { // open for development ?
       type: Boolean,
       default: true,
