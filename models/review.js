@@ -30,6 +30,15 @@ const reviewSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "projects",
     },
+    reviewedByDev: {
+      type: Boolean,
+      default: false,
+    },
+    reviewedByOrg: {
+      type: Boolean,
+      default: false,
+    },
+
   },
 );
 
