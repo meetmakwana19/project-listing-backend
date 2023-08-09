@@ -45,7 +45,6 @@ router.route("/")
       // this is a boolean field so no need to worry about making it case insensitive as boolean always should be case sensitive.
       queryObject.featured = featured;
     }
-    console.log("query is ", queryObject);
 
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
