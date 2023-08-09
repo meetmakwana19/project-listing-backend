@@ -17,7 +17,7 @@ router.route("/")
 
     // destructuring query keys from URL.
     const {
-      _id, title, techStack, board, featured, open, sort,
+      _id, title, techStack, board, featured, open, sort, bookmark,
     } = req.query;
     // req.query helps for finding only those specific documents which are queried from the URL like /projects?title=...&board=agile
 
@@ -38,10 +38,14 @@ router.route("/")
     if (open) { // FOR FILTERING
       queryObject.open = open;
     }
+    if (bookmark) { // FOR FILTERING saved Developer's projects.
+      queryObject.bookmark = bookmark;
+    }
     if (featured) { // FOR FILTERING
       // this is a boolean field so no need to worry about making it case insensitive as boolean always should be case sensitive.
       queryObject.featured = featured;
     }
+    console.log("query is ", queryObject);
 
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
