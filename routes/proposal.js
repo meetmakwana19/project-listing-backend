@@ -14,7 +14,6 @@ router.route("/")
     const {
       developer, project, organization, count,
     } = req.query;
-    // console.log("req.query is ", req.query);
 
     // had to put the find method in a variable as we needed to put sort over it again.
     // `populate` is used to fetch the foreign key referenced document in the find response based on the keys passed as an argument to the method.
@@ -35,13 +34,9 @@ router.route("/")
     if (count) {
       fetchedData = Proposal.countDocuments(queryObject);
     }
-    // console.log("qeury is ", fetchedData);
     fetchedData
       .then((documents) => {
-        // console.log("docs are ", documents);
-        // console.log("docs are ", res);
         // once we get all the documents the filter the data based on query parameter key and value
-        // console.log("docs are ", documents);
         let filteredDocs;
         if (queryObject) {
           // sending count response
@@ -57,8 +52,14 @@ router.route("/")
               return doc.project._id.equals(queryObject.project) && doc.developer._id.equals(queryObject.developer);
             }
             if (developer) { // FILTER SPECIFIC DEV
+              // ** This check is essential as there can be some docs related to deleted developer which would have null developer entry
+              if (!doc.developer) {
+                // Handle the case where developer is null in the document
+                return false;
+              }
               // equals() method is used to compare the ObjectId values
               // === cant be used since it is not String.
+
               return doc.developer._id.equals(queryObject.developer);
             }
             if (organization) { // FILTER SPECIFIC ORG
@@ -71,7 +72,7 @@ router.route("/")
             return documents;
           });
         }
-        if (documents.length === 0) {
+        if (documents.length === 0 || filteredDocs.length === 0) {
           // returns response of empty array with 'successful request' 200 code
           res.status(200).json({
             message: "No proposals data found. Insert some data please.",
